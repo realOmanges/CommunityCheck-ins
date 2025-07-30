@@ -120,28 +120,37 @@ This system was built with flexibility and transparency in mind:
 
 ---
 
-## 🤝 Contributing
-
-You can also suggest ideas via [GitHub Issues](https://github.com/realOmanges/CommunityCheck-ins/issues).
-
----
-
 ## 📞 Support
 
 Join the [SIDOR Community Discord](https://discord.gg/2pcKpMrxdD) to get help, suggest features, or just hang out with other creators using this system.
 
 ---
 
-## 📜 License
+## 💬 Feedback or Contributions
 
-This project is licensed under the [MIT License](LICENSE).
+Want to submit more facts or categories?
+
+* Open a pull request
+* Create an issue with your suggestion
+* Or fork it and go wild
+
+You can also suggest ideas via [GitHub Issues](https://github.com/realOmanges/FunFacts/issues).
+
+This tool is built to be modular, sharable, and Twitch-friendly.
 
 ---
 
-## 📂 Repository Structure
+## 👤 Author
 
-```plaintext
-Omanges-Community-Check-Ins/
-├── README.md
-├── Omanges Community Check-ins.sb    # Streamer.bot importable action
-```
+**Omanges**
+🟣 Twitch: [twitch.tv/omanges](https://twitch.tv/omanges)
+💬 Join the [SIDOR Community Discord](https://discord.gg/2pcKpMrxdD)
+
+---
+
+## 📄 License
+
+MIT License
+You’re free to use, modify, and share this—just give credit.
+
+---
