@@ -147,8 +147,3 @@ Omanges-Community-Check-Ins/
 ```
 
 ```
-
----
-
-Let me know if you’d like me to prep a real GitHub repo structure with `.sb` and `.cs` placeholders, or generate the LICENSE file and add a badge header for things like Twitch, C#, or MIT license.
-```
