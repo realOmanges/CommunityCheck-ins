@@ -122,7 +122,7 @@ This system was built with flexibility and transparency in mind:
 
 ## 🤝 Contributing
 
-You can also suggest ideas via [GitHub Issues](https://github.com/your-repo/issues).
+You can also suggest ideas via [GitHub Issues](https://github.com/realOmanges/CommunityCheck-ins/issues).
 
 ---
 
