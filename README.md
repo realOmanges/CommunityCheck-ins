@@ -143,7 +143,6 @@ This project is licensed under the [MIT License](LICENSE).
 ```plaintext
 Omanges-Community-Check-Ins/
 ├── README.md
-├── LICENSE
 ├── Omanges Community Check-ins.sb    # Streamer.bot importable action
 ```
 
