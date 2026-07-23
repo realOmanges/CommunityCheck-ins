@@ -2,6 +2,21 @@
 
 All notable changes to **Omanges Community Check-Ins** are documented here.
 
+## [2.4.2] - 2026-07-23
+
+### Fixed
+
+- Fixed a race condition that could cause newly added or reordered communities to disappear from `CommunitySettings.json` after later commands ran.
+- Prevented older in-memory settings from overwriting newer community-management changes.
+
+### Changed
+
+- Removed the **Initialize / Repair** action entirely.
+- Removed automatic import/startup initialization and all background settings rewrites.
+- Runtime commands now manage and save only their own changes.
+- Legacy TXT migration remains handled by the normal extension actions.
+- Existing command, action, trigger, reward, and sub-action IDs remain unchanged.
+
 ## [2.4.1] - 2026-07-23
 
 ### Added
@@ -11,7 +26,6 @@ All notable changes to **Omanges Community Check-Ins** are documented here.
 - Other-user lookup support through `!checkins @username`.
 - Role-based lookup permissions for broadcasters, moderators, VIPs, subscribers, and regular viewers.
 - Editable message, leaderboard, separator, and Today-file formatting through Streamer.bot arguments.
-- **Initialize / Repair** action for creating folders, repairing missing files, and migrating supported legacy data.
 - `CommunitySettings.json` for persistent community ordering and configuration.
 - Per-community JSON history files.
 - Readable per-community `- Today.txt` files.
@@ -46,4 +60,5 @@ All notable changes to **Omanges Community Check-Ins** are documented here.
 - Manual log-clearing action.
 - Community history stored in individual `.txt` files.
 
+[2.4.2]: ../../releases/tag/v2.4.2
 [2.4.1]: ../../releases/tag/v2.4.1
