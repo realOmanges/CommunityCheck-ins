@@ -32,8 +32,8 @@ Viewers can check into one or more communities through a channel-point reward, r
 - 🔄 **Automatic Reward Prompt Updates**  
   The extension rebuilds the channel-point reward prompt whenever the community list changes.
 
-- 🧰 **Initialization and Legacy Migration**  
-  Required folders and files are created automatically, with migration support for older `.txt`-based versions.
+- 📁 **Automatic File Creation and Legacy Migration**  
+  Normal extension actions create required files as needed and retain migration support for older `.txt`-based versions.
 
 ---
 
@@ -146,7 +146,9 @@ See [`docs/CONFIGURATION.md`](docs/CONFIGURATION.md) for all available arguments
 
 ### Community List Changes
 
-When a community is added, removed, renamed, or moved through `!community`, the settings file is saved and the reward prompt is rebuilt automatically.
+When a community is added, removed, renamed, or moved through `!community`, that action saves the updated settings and rebuilds the reward prompt immediately.
+
+Version 2.4.2 contains no startup initializer, repair action, autorun process, or background settings rewrite.
 
 ---
 
@@ -161,7 +163,7 @@ Omanges Extensions/
     ├── Community Name.json
     ├── Community Name - Today.txt
     ├── Archived Communities/
-    └── migration and initialization markers
+    └── migration markers
 ```
 
 ### Community JSON Files
@@ -185,19 +187,15 @@ Removing a community moves its existing JSON and Today files into `Archived Comm
 1. Back up your existing `Omanges Extensions/Check-Ins` and `Omanges Extensions/Community Check-Ins` folders.
 2. Import the current `.sb` release.
 3. Review duplicated commands and actions before enabling the new versions.
-4. Run **Initialize / Repair** manually if migration does not run automatically.
-5. Confirm the channel-point reward assignments.
-6. Review the new formatting and permission settings.
+4. Confirm the channel-point reward assignments.
+5. Run the normal check-in and community commands to verify settings and migration.
+6. Review the formatting and permission settings.
 
-The extension can migrate legacy community `.txt` files into JSON history and copies supported files from the older `Omanges Extensions/Check-Ins` directory.
+Legacy TXT migration is handled by the normal extension actions. There is no separate Initialize / Repair action in v2.4.2 or newer.
 
 ---
 
 ## 🧹 Maintenance
-
-### Initialize or Repair
-
-Run **Initialize / Repair** to recreate required folders, repair missing files, and migrate supported legacy data.
 
 ### Clear Check-In Logs
 
@@ -208,6 +206,10 @@ The included **Clear Check-in Logs** action deletes all community JSON histories
 ---
 
 ## 🛠️ Troubleshooting
+
+### A newly added community disappears later
+
+Upgrade to v2.4.2 or newer. Earlier v2.4.1 builds could overwrite newer community settings when an initializer finished with an older in-memory copy of `CommunitySettings.json`.
 
 ### The reward prompt shows the wrong communities
 
@@ -223,7 +225,7 @@ Run `!community list` and use the current community number or exact name.
 
 ### Data was not migrated from an older version
 
-Back up both check-in folders, then run **Initialize / Repair** and review the Streamer.bot logs for migration errors.
+Back up both check-in folders, run a normal check-in or community-management action, and review the Streamer.bot logs for migration errors.
 
 ### The commands do nothing
 
