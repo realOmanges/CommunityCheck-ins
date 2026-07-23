@@ -24,9 +24,10 @@ The extension contains these actions:
 | `Auto Check-in` | Checks returning viewers in when their first chat trigger runs. |
 | `Checkins Lookup` | Handles `!checkins` totals, targeted lookups, and leaderboards. |
 | `Community Manager` | Handles `!community` management commands. |
-| `Initialize / Repair` | Creates required files and migrates supported legacy data. |
 | `Update Check-in Reward Prompt` | Rebuilds the reward prompt from the current community list. |
 | `Clear Check-in Logs` | Deletes check-in histories when run manually. Disabled by default. |
+
+Version 2.4.2 and newer do not contain an **Initialize / Repair** action or automatic startup initializer.
 
 ## 3. Configure the Channel-Point Reward
 
@@ -55,24 +56,7 @@ Enable this command for normal viewers after reviewing the targeted-user lookup 
 
 Restrict this command to the broadcaster and trusted moderators. It can change the community list and archive community data.
 
-## 5. Initialize the Extension
-
-The **Initialize / Repair** action includes an initialization trigger, but it may also be run manually.
-
-Run it manually after importing when:
-
-- Updating from an older release
-- Required folders do not appear
-- Legacy `.txt` history needs migration
-- A community file is missing or damaged
-
-The primary data folder is:
-
-```text
-<Streamer.bot>/Omanges Extensions/Community Check-Ins/
-```
-
-## 6. Add Your Communities
+## 5. Add Your Communities
 
 Use the community manager command:
 
@@ -88,7 +72,13 @@ Repeat for each community, then verify the order:
 
 The displayed number is the number viewers enter in the channel-point reward.
 
-## 7. Test the Extension
+The primary data folder is created as needed at:
+
+```text
+<Streamer.bot>/Omanges Extensions/Community Check-Ins/
+```
+
+## 6. Test the Extension
 
 ### Test a manual check-in
 
@@ -127,7 +117,16 @@ or:
 
 Test from accounts with different Twitch roles to confirm the configured permissions.
 
-## 8. Updating from v1.2.0 or Another Legacy Version
+### Test community persistence
+
+1. Add a temporary test community.
+2. Run several other commands.
+3. Confirm the community remains in `CommunitySettings.json`.
+4. Remove the test community when finished.
+
+Version 2.4.2 fixes the v2.4.1 race condition that could revert newly saved community changes.
+
+## 7. Updating from v1.2.0 or Another Legacy Version
 
 1. Back up both folders if they exist:
 
@@ -138,9 +137,9 @@ Omanges Extensions/Community Check-Ins/
 
 2. Import the new extension.
 3. Disable or remove duplicated legacy actions and commands only after confirming the new actions work.
-4. Run **Initialize / Repair**.
-5. Verify that communities and history were migrated.
-6. Reassign the channel-point reward where required.
+4. Reassign the channel-point reward where required.
+5. Run a normal check-in or community-management command so required files and supported legacy migration can be handled.
+6. Verify that communities and history were migrated.
 7. Enable the new commands.
 
 Do not delete the backup until the new JSON histories have been verified.
