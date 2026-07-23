@@ -1,156 +1,253 @@
-# Omanges Community Check-Ins
+# ✅ Omanges Community Check-Ins
 
-**Omanges Community Check-Ins** is a custom-built extension for [Streamer.bot](https://streamer.bot) that allows Twitch streamers to track viewer engagement across multiple communities. This system supports manual check-ins via channel point rewards and automatic check-ins based on chat activity, storing logs in a lightweight, easy-to-edit `.txt` format.
+**Omanges Community Check-Ins** is a Streamer.bot extension for tracking viewer engagement across multiple Twitch communities.
+
+Viewers can check into one or more communities through a channel-point reward, returning members can be checked in automatically from their first chat message, and broadcasters can manage communities without editing C# code.
 
 ---
 
 ## 🎯 Key Features
 
-- 🔘 **Multi-Community Check-In System**  
-  Viewers can check into one or more Twitch communities like `SIDOR`, `Pizza Party`, and `Bullet Fam` in a single interaction.
+- ✅ **Multi-Community Check-Ins**  
+  Viewers can select one or more communities in a single channel-point redemption.
 
-- 🤖 **Automatic First-Chat Check-In**  
-  When a viewer sends their first chat of the stream, the bot will automatically check them in to any communities they’ve previously been associated with.
+- 🤖 **Automatic Check-Ins**  
+  Returning viewers can be automatically checked into their previously associated communities when they first chat.
 
-- 📝 **Simple `.txt` Logging**  
-  Each community is logged to a separate `.txt` file (e.g., `SIDOR.txt`, `Pizza Party.txt`) with one line per user, keeping tracking easy and portable.
+- 🏆 **Community Leaderboards**  
+  Use `!checkins <community>` to display the top members of a community.
 
-- 💬 **Dynamic Reward Prompt**  
-  The channel point reward prompt updates in at the beginning of the stream to reflect the list of available communities, pulled from a dictionary in the script.
+- 👤 **Viewer Check-In Lookups**  
+  Use `!checkins` to view your own totals, or `!checkins @username` when lookup permissions allow it.
 
-- 🧪 **Stream Debug Mode**  
-  Optional debug messages in chat or logs to verify that systems are working as expected.
+- 🛠️ **In-Chat Community Management**  
+  Add, remove, rename, reorder, and list communities with the `!community` command.
+
+- 💬 **Customizable Formatting**  
+  Chat responses, leaderboard entries, separators, and text-file formatting can be edited through Streamer.bot arguments.
+
+- 🔐 **Configurable Lookup Permissions**  
+  Choose whether broadcasters, moderators, VIPs, subscribers, or regular viewers may look up another user.
+
+- 🔄 **Automatic Reward Prompt Updates**  
+  The extension rebuilds the channel-point reward prompt whenever the community list changes.
+
+- 🧰 **Initialization and Legacy Migration**  
+  Required folders and files are created automatically, with migration support for older `.txt`-based versions.
 
 ---
 
 ## 🧰 Requirements
 
-- [Streamer.bot v0.2.8 or later](https://streamer.bot)
-- Twitch channel point reward set up
-- Basic understanding of importing actions and scripts
+- [Streamer.bot](https://streamer.bot) **1.0.0-alpha.1 or newer**
+- A Twitch account connected to Streamer.bot
+- A Twitch channel-point reward used for community check-ins
 
 ---
 
 ## 📦 Installation
 
-### 1. Import the Files
-Download or clone this repository, then:
+### 1. Download the Extension
 
-- Open Streamer.bot
-- Go to `Actions` → `Import` → Select the `.sb` file included in this repo
+Download the latest `.sb` file from the repository's [GitHub Releases](../../releases/latest) page.
 
-### 2. Create Your Channel Point Reward
-In the **Twitch Streaming** tab:
+### 2. Import into Streamer.bot
 
-- Create a custom **Channel Point Reward** (name it anything you like, e.g., `Check-In`)
-- Leave the prompt blank or enter anything — the script will auto-update it
+1. Open Streamer.bot.
+2. Click **Import**.
+3. Drag the downloaded `.sb` file into the import window.
+4. Complete the import.
 
-### 3. Set Up the Folder Structure
-Create a folder on your system (e.g., `CheckIns`) where `.txt` log files will be stored:
+The imported action group is named:
 
-You do **not** need to create the folders or `.txt` files manually — they’ll be auto-generated when a user checks in.
+```text
+Omanges - Community Check-Ins
+```
+
+### 3. Assign the Channel-Point Reward
+
+Assign your check-in reward to the imported **Community Check-in** action, then select the same reward in **Update Check-in Reward Prompt**.
+
+### 4. Enable the Commands
+
+The imported commands are disabled by default. Review their permissions and then enable:
+
+```text
+!checkins
+!community
+```
+
+Detailed setup instructions are available in [`docs/SETUP.md`](docs/SETUP.md).
+
+---
+
+## 💬 Commands
+
+### Viewer Commands
+
+| Command | Description |
+|---|---|
+| `!checkins` | Displays the requesting viewer's check-in totals. |
+| `!checkins @username` | Displays another viewer's totals when the requester has permission. |
+| `!checkins <community>` | Displays the leaderboard for a community name or number. |
+
+### Community Management Commands
+
+| Command | Description |
+|---|---|
+| `!community list` | Lists the current community numbers and names. |
+| `!community add Community Name` | Adds a new community. |
+| `!community remove Community Name` | Removes a community and archives its data files. |
+| `!community rename Old Name \| New Name` | Renames a community and its data files. |
+| `!community move 4 1` | Moves a community from one numbered position to another. |
+
+> Restrict `!community` to the broadcaster and trusted moderators through Streamer.bot command permissions.
 
 ---
 
 ## ⚙️ Configuration
 
-You can customize communities and formatting directly in the script:
+Editable settings are grouped near the top of the imported actions. Do not modify sections labeled:
 
-* Add, remove, or rename communities as needed.
-* Change the `separator` for how the reward prompt appears (default is `" | "`).
-* Update `checkInDirectory` if your folder path is different.
-* Change how it's logged in chat or saved in the `.txt` files.
+```text
+****DO NOT EDIT****
+```
+
+You can configure:
+
+- Check-in success, duplicate, and invalid-selection messages
+- Automatic check-in messages
+- User lookup responses
+- Leaderboard size, header, entry format, and separator
+- Permission levels for `!checkins @username`
+- Today-file entry formatting
+
+See [`docs/CONFIGURATION.md`](docs/CONFIGURATION.md) for all available arguments and tags.
 
 ---
 
 ## 🔄 How It Works
 
-### ✅ Viewer Redeems Check-In Reward
+### Viewer Redeems the Check-In Reward
 
-1. User redeems the reward.
-2. Script logs their name into each relevant community’s `.txt` file.
-3. If they're already checked in, they're skipped (no duplicates).
-4. Reward prompt is updated at the beginning of stream to show all community names.
+1. The viewer enters one or more community numbers.
+2. The extension validates each selection.
+3. New check-ins are added to each community's JSON history.
+4. Duplicate check-ins for the same viewer and date are skipped.
+5. The readable `Today.txt` file is rebuilt for each affected community.
+6. A formatted response is sent to chat.
 
-### 🗣️ Viewer Sends First Chat of Stream
+### Viewer Sends Their First Chat Message
 
-1. The script scans all `.txt` files for their username.
-2. If found, the user is re-logged (auto check-in) with a message sent in chat (optional).
-3. This happens once per stream per user.
+1. The extension finds communities previously associated with the viewer.
+2. The viewer is checked into those communities for the current date.
+3. Existing same-day entries are not duplicated.
+4. A formatted automatic check-in response is sent to chat.
+
+### Community List Changes
+
+When a community is added, removed, renamed, or moved through `!community`, the settings file is saved and the reward prompt is rebuilt automatically.
+
+---
+
+## 📁 Files Created
+
+The extension stores its data beneath the Streamer.bot installation directory:
+
+```text
+Omanges Extensions/
+└── Community Check-Ins/
+    ├── CommunitySettings.json
+    ├── Community Name.json
+    ├── Community Name - Today.txt
+    ├── Archived Communities/
+    └── migration and initialization markers
+```
+
+### Community JSON Files
+
+Each community receives a JSON file containing its date-based check-in history.
+
+### Today Text Files
+
+Each community also receives a readable `- Today.txt` file generated from the current day's check-ins.
+
+### Archived Communities
+
+Removing a community moves its existing JSON and Today files into `Archived Communities` instead of permanently deleting them.
+
+> Back up the entire `Omanges Extensions/Community Check-Ins` folder before moving Streamer.bot, reinstalling it, or replacing your computer.
+
+---
+
+## 🔼 Updating from an Older Version
+
+1. Back up your existing `Omanges Extensions/Check-Ins` and `Omanges Extensions/Community Check-Ins` folders.
+2. Import the current `.sb` release.
+3. Review duplicated commands and actions before enabling the new versions.
+4. Run **Initialize / Repair** manually if migration does not run automatically.
+5. Confirm the channel-point reward assignments.
+6. Review the new formatting and permission settings.
+
+The extension can migrate legacy community `.txt` files into JSON history and copies supported files from the older `Omanges Extensions/Check-Ins` directory.
 
 ---
 
 ## 🧹 Maintenance
 
-### 🔁 Reset All Check-In Logs
+### Initialize or Repair
 
-Use the included **Clear Check-In Logs** script to wipe all community `.txt` files in one click.
+Run **Initialize / Repair** to recreate required folders, repair missing files, and migrate supported legacy data.
 
-> ⚠️ Warning: This cannot be undone. Use with caution. Ensure to set the folder name correctly prior to use.
+### Clear Check-In Logs
 
----
+The included **Clear Check-in Logs** action deletes all community JSON histories and legacy text logs. It is disabled by default.
 
-## 💡 Examples
-
-### Example Prompt
-
-```
-Type the number(s) for the communities that you want to check in to: 0-SIDOR | 1-Pizza Party | 2-Bullet Fam
-```
-
-### Example SIDOR.txt
-
-```
-07/30/25 - Omanges
-07/30/25 - TaraShark
-07/30/25 - xX_GamerLlama_Xx
-07/31/25 - Omanges
-07/31/25 - DigitalOwen
-```
-
-
-
-## 🧑‍💻 Developer Notes
-
-This system was built with flexibility and transparency in mind:
-
-* **.txt file logging** keeps data readable and easy to migrate
-* **No external API dependencies**
-* **Fully extensible** – add webhooks, counters, overlays, and more
+> ⚠️ This reset cannot be undone. Back up your data first.
 
 ---
 
-## 📞 Support
+## 🛠️ Troubleshooting
 
-Join the [SIDOR Community Discord](https://discord.gg/2pcKpMrxdD) to get help, suggest features, or just hang out with other creators using this system.
+### The reward prompt shows the wrong communities
+
+Confirm that **Update Check-in Reward Prompt** has the correct reward selected, then run the action manually.
+
+### `!checkins @username` is denied
+
+Review the permission arguments in **Checkins Lookup** and verify that target lookups are enabled for the requester's role.
+
+### A community name is not recognized
+
+Run `!community list` and use the current community number or exact name.
+
+### Data was not migrated from an older version
+
+Back up both check-in folders, then run **Initialize / Repair** and review the Streamer.bot logs for migration errors.
+
+### The commands do nothing
+
+Confirm that both imported commands are enabled and still connected to their corresponding actions.
 
 ---
 
-## 💬 Feedback or Contributions
+## 📞 Support and Feedback
 
-Want to submit more facts or categories?
-
-* Open a pull request
-* Create an issue with your suggestion
-* Or fork it and go wild
-
-You can also suggest ideas via [GitHub Issues](https://github.com/realOmanges/FunFacts/issues).
-
-This tool is built to be modular, sharable, and Twitch-friendly.
+- Open a bug report or feature request through this repository's GitHub Issues.
+- Join the [SIDOR Community Discord](https://discord.gg/2pcKpMrxdD) for help or discussion.
 
 ---
 
 ## 👤 Author
 
-**Omanges**
-🟣 Twitch: [twitch.tv/omanges](https://twitch.tv/omanges)
-💬 Join the [SIDOR Community Discord](https://discord.gg/2pcKpMrxdD)
+**Omanges**  
+🟣 [Twitch.tv/Omanges](https://twitch.tv/omanges)  
+💬 [SIDOR Community Discord](https://discord.gg/2pcKpMrxdD)
 
 ---
 
 ## 📄 License
 
-MIT License
-You’re free to use, modify, and share this—just give credit.
+Released under the [MIT License](LICENSE).
 
----
+You are free to use, modify, and share this extension while retaining appropriate credit.
